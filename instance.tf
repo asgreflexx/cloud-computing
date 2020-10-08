@@ -17,7 +17,10 @@ resource "exoscale_instance_pool" "myinstancepool" {
 #!/bin/bash
 set -e
 apt update
-apt install -y nginx
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo docker pull janoszen/http-load-generator:latest
+sudo docker run -d --rm -p 80:8080 janoszen/http-load-generator
 EOF
 }
 
@@ -41,7 +44,7 @@ resource "exoscale_nlb_service" "website" {
   healthcheck {
     port = 80
     mode = "http"
-    uri = "/"
+    uri = "/health"
     interval = 5
     retries = 1
     timeout = 3
