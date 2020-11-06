@@ -20,6 +20,15 @@ resource "exoscale_security_group_rule" "http2" {
   end_port = 8080
 }
 
+resource "exoscale_security_group_rule" "http_prometheus" {
+  security_group_id = exoscale_security_group.sg.id
+  type = "INGRESS"
+  protocol = "tcp"
+  cidr = "0.0.0.0/0"
+  start_port = 9090
+  end_port = 9090
+}
+
 resource "exoscale_security_group_rule" "ssh" {
   security_group_id = exoscale_security_group.sg.id
   type = "INGRESS"
