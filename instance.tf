@@ -65,17 +65,12 @@ resource "exoscale_compute" "prometheus" {
   security_group_ids = [exoscale_security_group.sg.id]
   key_pair = "ssh-key"
   user_data = <<EOF
-  #!/bin/bash
-  set -e
-  apt update
-  curl -fsSL https://get.docker.com -o get-docker.sh
-  sudo sh get-docker.sh
-  sudo docker pull prom/prometheus
-
-  cat << EOF > /srv/prometheus.yml
-      ${file("srv/prometheus/prometheus.yml")}
-  EOT
-
-  sudo docker run -d -p 9090:9090 -v /srv/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+#!/bin/bash
+set -e
+apt update
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo docker pull asgreflexx/prometheus_cc:latest
+sudo docker run -d -p 9090:9090 asgreflexx/prometheus_cc
 EOF
 }
