@@ -25,7 +25,9 @@ apt update
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo docker pull janoszen/http-load-generator:latest
+sudo docker pull prom/node-exporter
 sudo docker run -d --rm -p 80:8080 janoszen/http-load-generator
+docker run -d -p 9100:9100 --net="host" prom/node-exporter
 EOF
 }
 
@@ -70,7 +72,16 @@ set -e
 apt update
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
+sudo docker pull asgreflexx/service-discovery_cc:latest
+touch /home/ubuntu/targets.json
+chown ubuntu:ubuntu /home/ubuntu/targets.json
+chmod 777 /home/ubuntu/targets.json
+sudo docker run -d -v /home/ubuntu/targets.json:/targets.json asgreflexx/service-discovery_cc:latest ${var.exoscale_key} ${var.exoscale_secret}
 sudo docker pull asgreflexx/prometheus_cc:latest
-sudo docker run -d -p 9090:9090 asgreflexx/prometheus_cc
+sudo docker run -d -p 9090:9090 -v /home/ubuntu/targets.json:/service-discovery/targets.json asgreflexx/prometheus_cc:latest
+
+echo "* * * * * sudo docker run -v /home/ubuntu/targets.json:/targets.json asgreflexx/service-discovery_cc:latest ${var.exoscale_key} ${var.exoscale_secret} > /var/log/servicediscovery.out 2>&1" > crontab.file
+crontab crontab.file
+
 EOF
 }

@@ -3,6 +3,9 @@ import exoscale
 import json
 import pathlib
 
+#Usage:
+#docker run -v /Users/michaelsvoboda/IdeaProjects/cloud-computing/srv/service-discovery/targets.json:/targets.json asgreflexx/service-discovery_cc:latest
+
 #API Key
 print(sys.argv[1])
 #API Secret
@@ -23,7 +26,7 @@ for instance in exo.compute.list_instances(zone_at):
         ip=instance.ipv4_address,
     ))
     data.append({
-        'targets': ["{ip}".format(ip=instance.ipv4_address)]
+        'targets': ["{ip}:9100".format(ip=instance.ipv4_address)]
     })
 
 with open('targets.json', 'w') as outfile:
