@@ -73,15 +73,15 @@ apt update
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo docker pull asgreflexx/service-discovery_cc:latest
-touch /home/ubuntu/targets.json
-chown ubuntu:ubuntu /home/ubuntu/targets.json
-chmod 777 /home/ubuntu/targets.json
-sudo docker run -d -v /home/ubuntu/targets.json:/targets.json asgreflexx/service-discovery_cc:latest ${var.exoscale_key} ${var.exoscale_secret}
-sudo docker pull asgreflexx/prometheus_cc:latest
-sudo docker run -d -p 9090:9090 -v /home/ubuntu/targets.json:/service-discovery/targets.json asgreflexx/prometheus_cc:latest
+mkdir /home/ubuntu/srv
+mkdir /home/ubuntu/srv/service-discovery
+touch /home/ubuntu/srv/service-discovery/config.json
+chown ubuntu:ubuntu /home/ubuntu/srv/service-discovery/config.json
+chmod 777 /home/ubuntu/srv/service-discovery/config.json
 
-echo "* * * * * sudo docker run -v /home/ubuntu/targets.json:/targets.json asgreflexx/service-discovery_cc:latest ${var.exoscale_key} ${var.exoscale_secret} > /var/log/servicediscovery.out 2>&1" > crontab.file
-crontab crontab.file
+sudo docker run -d -v /home/ubuntu/srv/service-discovery/config.json:/config.json -e EXOSCALE_KEY='${var.exoscale_key}' -e EXOSCALE_SECRET='${var.exoscale_secret}' -e EXOSCALE_ZONE='${exoscale_instance_pool.myinstancepool.zone}' -e TARGET_PORT='9100' -e EXOSCALE_INSTANCEPOOL_ID='${exoscale_instance_pool.myinstancepool.id}' asgreflexx/service-discovery_cc:latest
+sudo docker pull asgreflexx/prometheus_cc:latest
+sudo docker run -d -p 9090:9090 -v /home/ubuntu/srv/service-discovery/config.json:/service-discovery/config.json asgreflexx/prometheus_cc:latest
 
 EOF
 }

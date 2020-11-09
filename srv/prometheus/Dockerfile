@@ -1,2 +1,6 @@
 FROM prom/prometheus
+ENV EXOSCALE_KEY=""
+ENV EXOSCALE_SECRET=""
+ENV EXOSCALE_INSTANCEPOOL_ID=""
+ENV TARGET_PORT=""
 ADD prometheus.yml /etc/prometheus/

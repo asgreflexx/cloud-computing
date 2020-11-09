@@ -4,5 +4,5 @@ scrape_configs:
   - job_name: Custom
     file_sd_configs:
       - files:
-          - /service-discovery/targets.json
+          - /service-discovery/config.json
         refresh_interval: 5s
