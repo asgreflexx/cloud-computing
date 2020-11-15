@@ -1,0 +1,6 @@
+default_profile = "michael"
+
+[[profiles]]
+name = "michael"
+api_key = "EXO0050496d690d74aa8c23cd2d"
+api_secret = "143nj6FJ0INcRNc0Kbqt28qUrWBjgQKzNFoZD7ntm6c"
