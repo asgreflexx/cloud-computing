@@ -79,7 +79,7 @@ touch /home/ubuntu/srv/service-discovery/config.json
 chown ubuntu:ubuntu /home/ubuntu/srv/service-discovery/config.json
 chmod 777 /home/ubuntu/srv/service-discovery/config.json
 
-sudo docker run -d -v /home/ubuntu/srv/service-discovery/config.json:/config.json -e EXOSCALE_KEY='${var.exoscale_key}' -e EXOSCALE_SECRET='${var.exoscale_secret}' -e EXOSCALE_ZONE='${exoscale_instance_pool.myinstancepool.zone}' -e TARGET_PORT='9100' -e EXOSCALE_INSTANCEPOOL_ID='${exoscale_instance_pool.myinstancepool.id}' asgreflexx/service-discovery_cc:latest
+sudo docker run -d -v /home/ubuntu/srv/service-discovery/config.json:/srv/service-discovery/config.json -e EXOSCALE_KEY='${var.exoscale_key}' -e EXOSCALE_SECRET='${var.exoscale_secret}' -e EXOSCALE_ZONE='${exoscale_instance_pool.myinstancepool.zone}' -e TARGET_PORT='9100' -e EXOSCALE_INSTANCEPOOL_ID='${exoscale_instance_pool.myinstancepool.id}' asgreflexx/service-discovery_cc:latest
 sudo docker pull asgreflexx/prometheus_cc:latest
 sudo docker run -d -p 9090:9090 -v /home/ubuntu/srv/service-discovery/config.json:/service-discovery/config.json asgreflexx/prometheus_cc:latest
 

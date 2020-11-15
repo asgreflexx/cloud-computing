@@ -35,7 +35,7 @@ def search_for_instances_in_instancepool():
                 'targets': ["{ip}:{port}".format(ip=instance.ipv4_address,port=os.environ.get('TARGET_PORT'))]
             })
 
-    with open('config.json', 'w') as outfile:
+    with open('/srv/service-discovery/config.json', 'w') as outfile:
         json.dump(data, outfile)
 
 
