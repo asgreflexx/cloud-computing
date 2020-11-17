@@ -4,6 +4,8 @@ import exoscale
 import json
 import pathlib
 import time
+import signal
+
 
 #Usage:
 #docker run -v /Users/michaelsvoboda/IdeaProjects/cloud-computing/srv/service-discovery/config.json:/config.json -e EXOSCALE_KEY='' -e EXOSCALE_SECRET='' -e EXOSCALE_ZONE='at-vie-1' -e EXOSCALE_INSTANCEPOOL_ID='8c7795a6-3a9c-4904-8fa8-4dc07dcab100' -e TARGET_PORT='9100' asgreflexx/service-discovery_cc:latest
@@ -38,9 +40,19 @@ def search_for_instances_in_instancepool():
     with open('/srv/service-discovery/config.json', 'w') as outfile:
         json.dump(data, outfile)
 
+class Terminator:
+    i_ll_be_back = False
 
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.get_to_the_chopper)
+        signal.signal(signal.SIGTERM, self.get_to_the_chopper)
+
+    def get_to_the_chopper(self, signum, frame):
+        self.i_ll_be_back = True
 
 if __name__ == '__main__':
+
+    terminator = Terminator()
 
     #For manual testing
     #os.environ.setdefault('EXOSCALE_KEY', '')
@@ -76,6 +88,6 @@ if __name__ == '__main__':
         print("EXOSCALE Target Port is missing")
         exit()
 
-    while True:
+    while not terminator.i_ll_be_back:
         search_for_instances_in_instancepool()
         time.sleep(10)

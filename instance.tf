@@ -3,10 +3,10 @@ data "exoscale_compute_template" "ubuntu" {
   name = "Linux Ubuntu 20.04 LTS 64-bit"
 }
 
-resource "exoscale_ssh_keypair" "ssh-key" {
-  name = "ssh-key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxEi31wQgag0GHKiVeuHqXTYivfb2ei8KSvZ3n1kmEoCQ2yayVrw6vt0J/cNDuGtqmy9p4nRyv0fAf0y0VvTXzsEpLXJb31abJFc8DL+Prudx/sCBmpFjaV0pgJAg075DDmMze8zfT2iFBmMbCQgFyEk+3lMhKDQ999v+79YRxXabVaQwYc7atTA5HMaSK5IsNodcNqT+WC16GEkDueOhh9SMH3S5oDdWz0x+s/6r1vjseb/m0/WWD2B2GiQPYxVVS7L02k9rAQ6Sy3QpzmwXd5QO2C/Tp5Kl/4lXH+DEbM4QqmIS1xAHUPd1FsgDr71zkRZ+kCrR6ysFpI/olti0j3Gr1YNEA972P8KcpBJXMEmI6h+dODI7Nz6JeCs5kImj0U//T3TeqVR8L29tcEw2dEAE3UHuzyIiqLU9GCbNrbKNO/mRmaoEuVoMDHl1fEfwy08DR5PkcPrpIpe7pcySmWTUhElmD9XxKF6HK1RP08laOTQZTR1P0moqXDEN+cIKv+bOzSK2k22jzuFrtdWUXPAvkysc2q3JWbIvIqdB8XrY4+Emrf/bxJKTLdSbkKpiwVZdJfuT/igCB5JoxruWyvy28Vvc82bZMjcxl8UhEyXlhiOp8H0U1l+7Bqw0J0Q+PvuL6X+40xSgQ3GLNUWAJg6KS5OdO+LoTlqHOnJbb+w== cloud-computing-exoscale-sshkey"
-}
+# resource "exoscale_ssh_keypair" "ssh-key" {
+#   name = "ssh-key"
+#   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxEi31wQgag0GHKiVeuHqXTYivfb2ei8KSvZ3n1kmEoCQ2yayVrw6vt0J/cNDuGtqmy9p4nRyv0fAf0y0VvTXzsEpLXJb31abJFc8DL+Prudx/sCBmpFjaV0pgJAg075DDmMze8zfT2iFBmMbCQgFyEk+3lMhKDQ999v+79YRxXabVaQwYc7atTA5HMaSK5IsNodcNqT+WC16GEkDueOhh9SMH3S5oDdWz0x+s/6r1vjseb/m0/WWD2B2GiQPYxVVS7L02k9rAQ6Sy3QpzmwXd5QO2C/Tp5Kl/4lXH+DEbM4QqmIS1xAHUPd1FsgDr71zkRZ+kCrR6ysFpI/olti0j3Gr1YNEA972P8KcpBJXMEmI6h+dODI7Nz6JeCs5kImj0U//T3TeqVR8L29tcEw2dEAE3UHuzyIiqLU9GCbNrbKNO/mRmaoEuVoMDHl1fEfwy08DR5PkcPrpIpe7pcySmWTUhElmD9XxKF6HK1RP08laOTQZTR1P0moqXDEN+cIKv+bOzSK2k22jzuFrtdWUXPAvkysc2q3JWbIvIqdB8XrY4+Emrf/bxJKTLdSbkKpiwVZdJfuT/igCB5JoxruWyvy28Vvc82bZMjcxl8UhEyXlhiOp8H0U1l+7Bqw0J0Q+PvuL6X+40xSgQ3GLNUWAJg6KS5OdO+LoTlqHOnJbb+w== cloud-computing-exoscale-sshkey"
+# }
 
 resource "exoscale_instance_pool" "myinstancepool" {
   zone = "at-vie-1"
@@ -17,7 +17,7 @@ resource "exoscale_instance_pool" "myinstancepool" {
   service_offering = "micro"
   description = "This is my first instance pool"
   security_group_ids = [exoscale_security_group.sg.id]
-  key_pair = "ssh-key"
+  #key_pair = "ssh-key"
   user_data = <<EOF
 #!/bin/bash
 set -e
@@ -65,7 +65,7 @@ resource "exoscale_compute" "prometheus" {
   disk_size    = 10
   size = "micro"
   security_group_ids = [exoscale_security_group.sg.id]
-  key_pair = "ssh-key"
+  # key_pair = "ssh-key"
   user_data = <<EOF
 #!/bin/bash
 set -e
