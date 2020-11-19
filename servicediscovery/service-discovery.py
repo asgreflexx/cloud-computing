@@ -44,7 +44,6 @@ class Terminator:
     i_ll_be_back = False
 
     def __init__(self):
-        signal.signal(signal.SIGINT, self.get_to_the_chopper)
         signal.signal(signal.SIGTERM, self.get_to_the_chopper)
 
     def get_to_the_chopper(self, signum, frame):
